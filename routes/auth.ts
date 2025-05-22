@@ -1,6 +1,6 @@
 import { Elysia } from 'elysia'
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { signToken, verifyToken } from '../utils/auth'
 
 const prisma = new PrismaClient()
