@@ -1,0 +1,17 @@
+# Exported from Render on 2025-05-23T08:03:58Z
+services:
+- type: web
+  name: backend
+  runtime: docker
+  repo: https://github.com/HELLOMARK1/backend
+  plan: free
+  envVars:
+  - key: JWT_SECRET
+    sync: false
+  - key: DATABASE_URL
+    sync: false
+  region: singapore
+  dockerContext: .
+  dockerfilePath: ./Dockerfile
+  autoDeployTrigger: commit
+version: "1"
