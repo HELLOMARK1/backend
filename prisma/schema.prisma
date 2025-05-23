@@ -6,9 +6,57 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model Store {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  users     User[]
+  products  Product[]
+  orders    Order[]
+  categories Category[]
+}
+
 model User {
-  id       String   @id @default(uuid())
-  email    String   @unique
-  password String
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      String   @default("user")
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id])
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  imageUrl  String?
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id])
+  categoryId String?
+  category  Category? @relation(fields: [categoryId], references: [id])
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id])
+  products  Product[]
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id])
   createdAt DateTime @default(now())
 }
